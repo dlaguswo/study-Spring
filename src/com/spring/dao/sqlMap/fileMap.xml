@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="file">
+	
+	<!-- num 최대값 -->
+	<select id="maxFileNum" resultClass="int">
+		select nvl(max(num), 0) from filetest
+	</select>
+	
+	<!-- 값 읽어오기 -->
+	<select id="readData" parameterClass="int" resultClass="com.file.FileCommand">
+		select num, subject, saveFileName, originalFileName from filetest where num=#num#
+	</select>
+	
+	<!-- 데이터 입력 -->
+	<insert id="insertData" parameterClass="com.file.FileCommand">
+		insert into filetest(num, subject, saveFileName, originalFileName) values (#num#, #subject#, #saveFileName#, #originalFileName#)
+	</insert>
+	
+	<!-- 데이터 개수 -->
+	<select id="dataCount" resultClass="Integer">
+		select nvl(count(*),0) from filetest
+	</select>
+
+	<!-- 전체 데이터 -->
+	<select id="listData" resultClass="com.file.FileCommand" parameterClass="map">
+		select * from (
+		select rownum rnum, data.* from (
+		select num, subject, saveFileName from filetest
+		order by num desc) data)
+	<![CDATA[
+		where rnum>=#start# and rnum<=#end#
+	]]>
+	</select>
+	
+	<!-- 데이터 삭제 -->
+	<delete id="deleteData" parameterClass = "int" >
+		delete from filetest where num = #num#
+	</delete>
+	
+</sqlMap>

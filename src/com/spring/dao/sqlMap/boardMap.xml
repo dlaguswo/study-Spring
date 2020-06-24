@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="sbbs">
+
+<select id="boardNumMax" resultClass="int">
+	select nvl(max(boardNum), 0) from sbbs
+</select>
+
+<insert id="insertData" parameterClass="com.sbbs.BoardCommand">
+	insert into sbbs (boardNum, name, pwd, email, subject, content, ipAddr, hitCount, created) 
+	values(#boardNum#, #name#, #pwd#, #email#, #subject#, #content#, #ipAddr#, 0, sysdate)
+</insert>
+
+<select id="dataCount" parameterClass="map" resultClass="int">
+	select nvl(count(*), 0) from sbbs 
+	where $searchKey$ like '%' || #searchValue# || '%'
+</select>
+
+<select id = "listData" parameterClass="map" resultClass="com.sbbs.BoardCommand">
+	select * from(
+	select rownum rnum, data.* from(
+	select boardNum, name, subject, hitCount, to_char(created, 'YYYY-MM-DD') created from sbbs
+	where $searchKey$ like '%' || #searchValue# || '%' order by boardNum desc) data)
+	<![CDATA[
+		where rnum >= #start# and rnum <= #end#
+	]]>
+</select>
+
+<select id="readData" parameterClass="int" resultClass="com.sbbs.BoardCommand">
+	select boardNum, name, pwd, email, subject, content, ipAddr, hitCount, created
+	from sbbs where boardNum = #boardNum#
+</select>
+
+<select id="prereadData" parameterClass="map" resultClass="com.sbbs.BoardCommand">
+	<![CDATA[
+		select data.* from (
+		select boardNum, subject from sbbs where ($searchKey$ like '%' || #searchValue# || '%' ) and (boardNum > #boardNum#)
+		order by boardNum asc) data
+		where rownum = 1
+	]]>
+</select>
+
+<select id="nextreadData" parameterClass="map" resultClass="com.sbbs.BoardCommand">
+	<![CDATA[
+		select data.* from (
+		select boardNum, subject from sbbs where ($searchKey$ like '%' || #searchValue# || '%' ) and (boardNum < #boardNum#)
+		order by boardNum desc) data
+		where rownum = 1
+	]]>
+</select>
+
+<update id="updateHitCount" parameterClass="int">
+	update sbbs set hitCount = hitCount + 1 where boardNum = #boardNum#
+</update>
+
+<update id="updateData" parameterClass="com.sbbs.BoardCommand">
+	update sbbs set name = #name#, pwd = #pwd#, email = #email#, subject = #subject#, content = #content#
+	where boardNum = #boardNum#
+</update>
+
+<delete id="deleteData" parameterClass="int">
+	delete sbbs where boardNum = #boardNum#
+</delete>
+
+</sqlMap>

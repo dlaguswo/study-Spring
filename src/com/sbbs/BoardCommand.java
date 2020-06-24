@@ -1,0 +1,116 @@
+package com.sbbs;
+
+public class BoardCommand {
+
+	private int listNum; // 일련번호
+
+	private int boardNum; // 게시글 번호
+	private String name; // 작성자
+	private String pwd; // 비밀번호
+	private String email; // 이메일
+	private String subject; // 제목
+	private String content; // 내용
+	private String ipAddr; // IP
+	private int hitCount; // 조회수
+	private String created; // 작성 일자
+
+	private String mode;
+	private String pageNum;
+
+	public int getListNum() {
+		return listNum;
+	}
+
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+
+	public int getBoardNum() {
+		return boardNum;
+	}
+
+	public void setBoardNum(int boardNum) {
+		this.boardNum = boardNum;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getIpAddr() {
+		return ipAddr;
+	}
+
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
+
+	public int getHitCount() {
+		return hitCount;
+	}
+
+	public void setHitCount(int hitCount) {
+		this.hitCount = hitCount;
+	}
+
+	public String getCreated() {
+		return created;
+	}
+
+	public void setCreated(String created) {
+		this.created = created;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
+	public String getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(String pageNum) {
+		this.pageNum = pageNum;
+	}
+
+}
